@@ -39,7 +39,7 @@ class ScoreboardServiceTest {
 
         // given
         String homeTeam = "Poland";
-        String guestTeam = "Germany";
+        String guestTeam = "Portugal";
         int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
 
         // when
@@ -54,11 +54,11 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    void itShouldNorStartMatchWhenAtLestOneTeamIsCurrentlyPlaying() {
+    void itShouldNotStartMatchWhenAtHomeTeamIsCurrentlyPlaying() {
 
         // given
         String homeTeam = "Spain";
-        String guestTeam = "Germany";
+        String guestTeam = "Portugal";
         int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
 
         // when
@@ -68,4 +68,85 @@ class ScoreboardServiceTest {
         Assertions.assertNull(startedMatch);
         Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
     }
+
+    @Test
+    void itShouldNotStartMatchWhenAtGuestTeamIsCurrentlyPlaying() {
+
+        // given
+        String homeTeam = "Portugal";
+        String guestTeam = "Spain";
+        int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
+
+        // when
+        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+
+        // then
+        Assertions.assertNull(startedMatch);
+        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+    }
+
+    @Test
+    void itShouldNotStartMatchWhenBothTeamsAreCurrentlyPlaying() {
+
+        // given
+        String homeTeam = "Mexico";
+        String guestTeam = "Spain";
+        int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
+
+        // when
+        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+
+        // then
+        Assertions.assertNull(startedMatch);
+        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+    }
+
+    @Test
+    void itShouldNotStartMatchWhenHomeTeamNameIsEmpty() {
+
+        // given
+        String homeTeam = "";
+        String guestTeam = "Portugal";
+        int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
+
+        // when
+        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+
+        // then
+        Assertions.assertNull(startedMatch);
+        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+    }
+
+    @Test
+    void itShouldNotStartMatchWhenHomeTeamNameIsNull() {
+
+        // given
+        String homeTeam = null;
+        String guestTeam = "Portugal";
+        int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
+
+        // when
+        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+
+        // then
+        Assertions.assertNull(startedMatch);
+        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+    }
+
+    @Test
+    void itShouldNotStartMatchWhenGuestTeamNameIsEmpty() {
+
+        // given
+        String homeTeam = "Portugal";
+        String guestTeam = "";
+        int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
+
+        // when
+        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+
+        // then
+        Assertions.assertNull(startedMatch);
+        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+    }
+
 }
