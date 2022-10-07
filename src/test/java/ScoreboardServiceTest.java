@@ -1,15 +1,21 @@
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.szmolke.model.Match;
 import pl.szmolke.service.ScoreboardService;
 
 class ScoreboardServiceTest {
 
-    private final ScoreboardService scoreboardService = new ScoreboardService();
+    private ScoreboardService scoreboardService;
+
+    @BeforeEach
+    void setUp() {
+        scoreboardService = new ScoreboardService();
+    }
 
     @Test
     void itShouldStartMatchWithInitialScore() {
-        
+
         // given
         String homeTeam = "Poland";
         String guestTeam = "Germany";
