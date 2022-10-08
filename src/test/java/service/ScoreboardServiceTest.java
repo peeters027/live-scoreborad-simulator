@@ -151,12 +151,27 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    void itShouldNotUpdateMatchWhenScoresAreNotCorrect() {
+    void itShouldNotUpdateMatchWhenGuestScoreIsNotCorrect() {
 
         // given
         int index = 1;
         int homeScore = 10;
         int guestScore = -2;
+
+        // when
+        Match updatedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
+
+        // then
+        Assertions.assertNull(updatedMatch);
+    }
+
+    @Test
+    void itShouldNotUpdateMatchWhenHomeScoreIsNotCorrect() {
+
+        // given
+        int index = 1;
+        int homeScore = -2;
+        int guestScore = 10;
 
         // when
         Match updatedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
