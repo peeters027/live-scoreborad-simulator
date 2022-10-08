@@ -3,6 +3,7 @@ package service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.szmolke.database.InMemoryDB;
+import pl.szmolke.exception.IndexFormatException;
 import pl.szmolke.exception.ScoreFormatException;
 import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.model.Match;
@@ -151,7 +152,7 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    void itShouldUpdateMatchWhenScoresAreCorrect() throws ScoreFormatException {
+    void itShouldUpdateMatchWhenScoresAreCorrect() throws ScoreFormatException, IndexFormatException {
 
         // given
         Integer index = 1;
