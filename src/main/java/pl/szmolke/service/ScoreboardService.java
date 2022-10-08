@@ -40,7 +40,9 @@ public class ScoreboardService {
             System.out.println(result.getMessage());
             return null;
         }
-        InMemoryDB.MATCHES.set(indexFromScoreboard - 1, match);
-        return match;
+        Match matchToUpdate = InMemoryDB.MATCHES.get(indexFromScoreboard - 1);
+        matchToUpdate.setHomeScore(match.getHomeScore());
+        matchToUpdate.setGuestScore(match.getGuestScore());
+        return matchToUpdate;
     }
 }
