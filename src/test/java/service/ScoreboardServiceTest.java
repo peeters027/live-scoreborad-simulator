@@ -136,7 +136,7 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    void itShouldNotStartMatchWhenGuestTeamNameIsEmpty() throws TeamNameFormatException {
+    void itShouldNotStartMatchWhenGuestTeamNameIsEmpty() {
 
         // given
         String homeTeam = "Portugal";
@@ -144,7 +144,8 @@ class ScoreboardServiceTest {
         int numberOfMatchesInPlayBeforeAdding = MATCHES.size();
 
         // when
-        TeamNameFormatException thrown = assertThrows(TeamNameFormatException.class, () -> scoreboardService.startMatch(homeTeam, guestTeam));
+        TeamNameFormatException thrown = assertThrows(TeamNameFormatException.class,
+                () -> scoreboardService.startMatch(homeTeam, guestTeam));
 
 
         // then
@@ -177,7 +178,8 @@ class ScoreboardServiceTest {
         int guestScore = -2;
 
         // when
-        ScoreFormatException thrown = assertThrows(ScoreFormatException.class, () -> scoreboardService.updateMatch(index, homeScore, guestScore));
+        ScoreFormatException thrown = assertThrows(ScoreFormatException.class,
+                () -> scoreboardService.updateMatch(index, homeScore, guestScore));
 
         // then
         assertEquals(10, MATCHES.get(0).getHomeScore());
@@ -195,7 +197,8 @@ class ScoreboardServiceTest {
         int guestScore = 10;
 
         // when
-        ScoreFormatException thrown = assertThrows(ScoreFormatException.class, () -> scoreboardService.updateMatch(index, homeScore, guestScore));
+        ScoreFormatException thrown = assertThrows(ScoreFormatException.class,
+                () -> scoreboardService.updateMatch(index, homeScore, guestScore));
 
         // then
         assertEquals(10, MATCHES.get(0).getHomeScore());

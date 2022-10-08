@@ -11,10 +11,12 @@ import static pl.szmolke.validator.ValidationResult.SUCCESS;
 public interface InputValidator extends Function<Scanner, ValidationResult> {
 
     static InputValidator validateIndexFromScoreboard() {
-        return input -> input.hasNextInt() ? SUCCESS : INDEX_FROM_SCOREBOARD_INVALID;
+        return input -> input.hasNextInt() ?
+                SUCCESS : INDEX_FROM_SCOREBOARD_INVALID;
     }
 
     static ValidationResult validateIndexFromScoreboard(int index) {
-        return index <= InMemoryDB.MATCHES.size() && index > 0 ? SUCCESS : INDEX_FROM_SCOREBOARD_INVALID;
+        return index <= InMemoryDB.MATCHES.size() && index > 0 ?
+                SUCCESS : INDEX_FROM_SCOREBOARD_INVALID;
     }
 }

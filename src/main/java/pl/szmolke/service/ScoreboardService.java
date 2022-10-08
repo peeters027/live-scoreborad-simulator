@@ -50,10 +50,12 @@ public class ScoreboardService {
     }
 
     public Match removeMatch(Integer indexFromScoreboard) throws IndexFormatException {
+
         ValidationResult indexFromScoreboardValidationResult = InputValidator.validateIndexFromScoreboard(indexFromScoreboard);
         if (indexFromScoreboardValidationResult != SUCCESS) {
             throw new IndexFormatException(indexFromScoreboardValidationResult.getMessage());
         }
+        
         return MATCHES.remove(indexFromScoreboard - 1);
     }
 }
