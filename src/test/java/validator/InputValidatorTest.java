@@ -3,7 +3,6 @@ package validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.szmolke.database.InMemoryDB;
 import pl.szmolke.model.Match;
 import pl.szmolke.validator.InputValidator;
 import pl.szmolke.validator.ValidationResult;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import static pl.szmolke.database.InMemoryDB.MATCHES;
 import static pl.szmolke.validator.ValidationResult.INDEX_FROM_SCOREBOARD_INVALID;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
@@ -87,7 +87,7 @@ public class InputValidatorTest {
     }
 
     private void initInMemoryDb() {
-        InMemoryDB.MATCHES = new ArrayList<>(Arrays.asList(
+        MATCHES = new ArrayList<>(Arrays.asList(
                 Match.builder()
                         .homeTeam("Spain")
                         .guestTeam("Brazil")

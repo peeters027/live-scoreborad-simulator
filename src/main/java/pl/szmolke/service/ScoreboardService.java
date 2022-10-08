@@ -48,4 +48,8 @@ public class ScoreboardService {
         matchToUpdate.setGuestScore(guestScore);
         return matchToUpdate;
     }
+
+    public Match removeMatch(Integer indexFromScoreboard) {
+        return null;
+    }
 }

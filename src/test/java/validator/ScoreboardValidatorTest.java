@@ -3,7 +3,6 @@ package validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.szmolke.database.InMemoryDB;
 import pl.szmolke.model.Match;
 import pl.szmolke.validator.ScoreboardValidator;
 import pl.szmolke.validator.ValidationResult;
@@ -11,6 +10,7 @@ import pl.szmolke.validator.ValidationResult;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static pl.szmolke.database.InMemoryDB.MATCHES;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_INVALID;
@@ -158,7 +158,6 @@ public class ScoreboardValidatorTest {
 
         // given
         int homeScore = 2;
-        Match match = Match.builder().homeScore(homeScore).build();
 
         // when
         ValidationResult result = ScoreboardValidator.isHomeScoreValid(homeScore);
@@ -172,7 +171,6 @@ public class ScoreboardValidatorTest {
 
         // given
         int homeScore = -2;
-        Match match = Match.builder().homeScore(homeScore).build();
 
         // when
         ValidationResult result = ScoreboardValidator.isHomeScoreValid(homeScore);
@@ -186,7 +184,6 @@ public class ScoreboardValidatorTest {
 
         // given
         int guestScore = 2;
-        Match match = Match.builder().guestScore(guestScore).build();
 
         // when
         ValidationResult result = ScoreboardValidator.isGuestScoreValid(guestScore);
@@ -200,7 +197,6 @@ public class ScoreboardValidatorTest {
 
         // given
         int guestScore = -2;
-        Match match = Match.builder().guestScore(guestScore).build();
 
         // when
         ValidationResult result = ScoreboardValidator.isGuestScoreValid(guestScore);
@@ -210,7 +206,7 @@ public class ScoreboardValidatorTest {
     }
 
     private void initInMemoryDb() {
-        InMemoryDB.MATCHES = new ArrayList<>(Arrays.asList(
+        MATCHES = new ArrayList<>(Arrays.asList(
                 Match.builder()
                         .homeTeam("Spain")
                         .guestTeam("Brazil")
