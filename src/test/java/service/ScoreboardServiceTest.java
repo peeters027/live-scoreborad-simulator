@@ -1,3 +1,5 @@
+package service;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,23 +17,6 @@ class ScoreboardServiceTest {
     void setUp() {
         scoreboardService = new ScoreboardService();
         initInMemoryDb();
-    }
-
-    private void initInMemoryDb() {
-        InMemoryDB.MATCHES.addAll(Arrays.asList(
-                Match.builder()
-                        .homeTeam("Spain")
-                        .guestTeam("Brazil")
-                        .homeScore(10)
-                        .guestScore(2)
-                        .build(),
-                Match.builder()
-                        .homeTeam("Mexico")
-                        .guestTeam("Canada")
-                        .homeScore(0)
-                        .guestScore(5)
-                        .build()
-        ));
     }
 
     @Test
@@ -147,6 +132,23 @@ class ScoreboardServiceTest {
         // then
         Assertions.assertNull(startedMatch);
         Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+    }
+
+    private void initInMemoryDb() {
+        InMemoryDB.MATCHES.addAll(Arrays.asList(
+                Match.builder()
+                        .homeTeam("Spain")
+                        .guestTeam("Brazil")
+                        .homeScore(10)
+                        .guestScore(2)
+                        .build(),
+                Match.builder()
+                        .homeTeam("Mexico")
+                        .guestTeam("Canada")
+                        .homeScore(0)
+                        .guestScore(5)
+                        .build()
+        ));
     }
 
 }

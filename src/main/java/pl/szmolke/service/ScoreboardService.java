@@ -2,13 +2,10 @@ package pl.szmolke.service;
 
 import pl.szmolke.database.InMemoryDB;
 import pl.szmolke.model.Match;
-import pl.szmolke.validator.StartMatchValidator.ValidationResult;
+import pl.szmolke.validator.ScoreboardValidator.ValidationResult;
 
-import static pl.szmolke.validator.StartMatchValidator.ValidationResult.SUCCESS;
-import static pl.szmolke.validator.StartMatchValidator.isGuestTeamAlreadyInPlay;
-import static pl.szmolke.validator.StartMatchValidator.isGuestTeamNameValid;
-import static pl.szmolke.validator.StartMatchValidator.isHomeTeamAlreadyInPlay;
-import static pl.szmolke.validator.StartMatchValidator.isHomeTeamNameValid;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.SUCCESS;
+import static pl.szmolke.validator.ScoreboardValidator.isMatchValid;
 
 public class ScoreboardService {
 
@@ -19,14 +16,10 @@ public class ScoreboardService {
                 .guestTeam(guestTeam)
                 .build();
 
-        ValidationResult result = isHomeTeamNameValid()
-                .and(isGuestTeamNameValid())
-                .and(isHomeTeamAlreadyInPlay())
-                .and(isGuestTeamAlreadyInPlay())
-                .apply(match);
+        ValidationResult result = isMatchValid(match);
 
         if (result != SUCCESS) {
-            System.out.println(result);
+            System.out.println(result.getMessage());
             return null;
         }
 
