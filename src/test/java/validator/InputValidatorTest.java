@@ -8,8 +8,10 @@ import pl.szmolke.model.Match;
 import pl.szmolke.validator.InputValidator;
 import pl.szmolke.validator.ValidationResult;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import static pl.szmolke.validator.ValidationResult.INDEX_FROM_SCOREBOARD_INVALID;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
@@ -55,6 +57,30 @@ public class InputValidatorTest {
 
         // when
         ValidationResult result = InputValidator.validateIndexFromScoreboard(index);
+
+        // then
+        Assertions.assertEquals(INDEX_FROM_SCOREBOARD_INVALID.getMessage(), result.getMessage());
+    }
+
+    @Test
+    void validateIndexFromScoreboardWhenProvidedIndexIsInteger() {
+        // given
+        ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
+        Scanner input = new Scanner(in);
+        // when
+        ValidationResult result = InputValidator.validateIndexFromScoreboard().apply(input);
+
+        // then
+        Assertions.assertEquals(SUCCESS.getMessage(), result.getMessage());
+    }
+
+    @Test
+    void validateIndexFromScoreboardWhenProvidedIndexIsString() {
+        // given
+        ByteArrayInputStream in = new ByteArrayInputStream("text".getBytes());
+        Scanner input = new Scanner(in);
+        // when
+        ValidationResult result = InputValidator.validateIndexFromScoreboard().apply(input);
 
         // then
         Assertions.assertEquals(INDEX_FROM_SCOREBOARD_INVALID.getMessage(), result.getMessage());
