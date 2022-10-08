@@ -6,7 +6,7 @@ import pl.szmolke.validator.ScoreboardValidator.ValidationResult;
 
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.SUCCESS;
 import static pl.szmolke.validator.ScoreboardValidator.isMatchValid;
-import static pl.szmolke.validator.ScoreboardValidator.isScoreInputValid;
+import static pl.szmolke.validator.ScoreboardValidator.isScoreValid;
 
 public class ScoreboardService {
 
@@ -30,19 +30,15 @@ public class ScoreboardService {
 
     public Match updateMatch(Integer indexFromScoreboard, int homeScore, int guestScore) {
 
-        Match match = Match.builder()
-                .homeScore(homeScore)
-                .guestScore(guestScore)
-                .build();
-        ValidationResult result = isScoreInputValid(match);
+        ValidationResult result = isScoreValid(homeScore, guestScore);
 
         if (result != SUCCESS) {
             System.out.println(result.getMessage());
             return null;
         }
         Match matchToUpdate = InMemoryDB.MATCHES.get(indexFromScoreboard - 1);
-        matchToUpdate.setHomeScore(match.getHomeScore());
-        matchToUpdate.setGuestScore(match.getGuestScore());
+        matchToUpdate.setHomeScore(homeScore);
+        matchToUpdate.setGuestScore(guestScore);
         return matchToUpdate;
     }
 }

@@ -159,7 +159,7 @@ public class ScoreboardValidatorTest {
         Match match = Match.builder().homeScore(homeScore).build();
 
         // when
-        ValidationResult result = ScoreboardValidator.isHomeScoreValid().apply(match);
+        ValidationResult result = ScoreboardValidator.isHomeScoreValid(homeScore);
 
         // then
         Assertions.assertEquals(SUCCESS.getMessage(), result.getMessage());
@@ -173,7 +173,7 @@ public class ScoreboardValidatorTest {
         Match match = Match.builder().homeScore(homeScore).build();
 
         // when
-        ValidationResult result = ScoreboardValidator.isHomeScoreValid().apply(match);
+        ValidationResult result = ScoreboardValidator.isHomeScoreValid(homeScore);
 
         // then
         Assertions.assertEquals(HOME_TEAM_SCORE_NOT_VALID.getMessage(), result.getMessage());
@@ -187,7 +187,7 @@ public class ScoreboardValidatorTest {
         Match match = Match.builder().guestScore(guestScore).build();
 
         // when
-        ValidationResult result = ScoreboardValidator.isGuestScoreValid().apply(match);
+        ValidationResult result = ScoreboardValidator.isGuestScoreValid(guestScore);
 
         // then
         Assertions.assertEquals(SUCCESS.getMessage(), result.getMessage());
@@ -201,7 +201,7 @@ public class ScoreboardValidatorTest {
         Match match = Match.builder().guestScore(guestScore).build();
 
         // when
-        ValidationResult result = ScoreboardValidator.isGuestScoreValid().apply(match);
+        ValidationResult result = ScoreboardValidator.isGuestScoreValid(guestScore);
 
         // then
         Assertions.assertEquals(GUEST_TEAM_SCORE_NOT_VALID.getMessage(), result.getMessage());

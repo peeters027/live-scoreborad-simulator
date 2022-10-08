@@ -50,20 +50,19 @@ public interface ScoreboardValidator extends Function<Match, ValidationResult> {
                 .apply(match);
     }
 
-    static ScoreboardValidator isHomeScoreValid() {
-        return match -> match.getHomeScore() >= 0 ?
+    static ValidationResult isHomeScoreValid(int homeScore) {
+        return homeScore >= 0 ?
                 SUCCESS : HOME_TEAM_SCORE_NOT_VALID;
     }
 
-    static ScoreboardValidator isGuestScoreValid() {
-        return match -> match.getGuestScore() >= 0 ?
+    static ValidationResult isGuestScoreValid(int guestScore) {
+        return guestScore >= 0 ?
                 SUCCESS : GUEST_TEAM_SCORE_NOT_VALID;
     }
 
-    static ValidationResult isScoreInputValid(Match match) {
-        return isHomeScoreValid()
-                .and(isGuestScoreValid())
-                .apply(match);
+    static ValidationResult isScoreValid(int homeScore, int guestScore) {
+        return isHomeScoreValid(homeScore) == SUCCESS ? isGuestScoreValid(guestScore) : HOME_TEAM_SCORE_NOT_VALID;
+
     }
 
     default ScoreboardValidator and(ScoreboardValidator other) {
