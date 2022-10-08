@@ -134,6 +134,22 @@ class ScoreboardServiceTest {
         Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
     }
 
+    @Test
+    void itShouldUpdateMatch() {
+
+        // given
+        Integer index = 1;
+        int homeScore = 10;
+        int guestScore = 20;
+
+        // when
+        Match startedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
+
+        // then
+        Assertions.assertEquals(homeScore, InMemoryDB.MATCHES.get(1).getHomeScore());
+        Assertions.assertEquals(guestScore, InMemoryDB.MATCHES.get(1).getGuestScore());
+    }
+
     private void initInMemoryDb() {
         InMemoryDB.MATCHES.addAll(Arrays.asList(
                 Match.builder()

@@ -26,4 +26,8 @@ public class ScoreboardService {
         InMemoryDB.MATCHES.add(match);
         return match;
     }
+
+    public Match updateMatch(Integer index, int homeScore, int guestScore) {
+        return null;
+    }
 }
