@@ -135,7 +135,7 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    void itShouldUpdateMatch() {
+    void itShouldUpdateMatchWhenScoresAreCorrect() {
 
         // given
         Integer index = 1;
@@ -143,11 +143,26 @@ class ScoreboardServiceTest {
         int guestScore = 20;
 
         // when
-        Match startedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
+        Match updatedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
 
         // then
-        Assertions.assertEquals(homeScore, InMemoryDB.MATCHES.get(0).getHomeScore());
-        Assertions.assertEquals(guestScore, InMemoryDB.MATCHES.get(0).getGuestScore());
+        Assertions.assertEquals(updatedMatch.getHomeScore(), InMemoryDB.MATCHES.get(0).getHomeScore());
+        Assertions.assertEquals(updatedMatch.getGuestScore(), InMemoryDB.MATCHES.get(0).getGuestScore());
+    }
+
+    @Test
+    void itShouldNotUpdateMatchWhenScoresAreNotCorrect() {
+
+        // given
+        int index = 1;
+        int homeScore = 10;
+        int guestScore = -2;
+
+        // when
+        Match updatedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
+
+        // then
+        Assertions.assertNull(updatedMatch);
     }
 
     private void initInMemoryDb() {
