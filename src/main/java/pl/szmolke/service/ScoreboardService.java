@@ -1,6 +1,7 @@
 package pl.szmolke.service;
 
 import pl.szmolke.database.InMemoryDB;
+import pl.szmolke.exception.ScoreFormatException;
 import pl.szmolke.model.Match;
 import pl.szmolke.validator.ScoreboardValidator.ValidationResult;
 
@@ -28,13 +29,12 @@ public class ScoreboardService {
         return match;
     }
 
-    public Match updateMatch(Integer indexFromScoreboard, int homeScore, int guestScore) {
+    public Match updateMatch(Integer indexFromScoreboard, int homeScore, int guestScore) throws ScoreFormatException {
 
         ValidationResult result = isScoreValid(homeScore, guestScore);
 
         if (result != SUCCESS) {
-            System.out.println(result.getMessage());
-            return null;
+            throw new ScoreFormatException(result.getMessage());
         }
         Match matchToUpdate = InMemoryDB.MATCHES.get(indexFromScoreboard - 1);
         matchToUpdate.setHomeScore(homeScore);

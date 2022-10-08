@@ -1,13 +1,19 @@
 package service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.szmolke.database.InMemoryDB;
+import pl.szmolke.exception.ScoreFormatException;
 import pl.szmolke.model.Match;
 import pl.szmolke.service.ScoreboardService;
 
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
 
 class ScoreboardServiceTest {
 
@@ -31,11 +37,11 @@ class ScoreboardServiceTest {
         Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
 
         // then
-        Assertions.assertEquals(homeTeam, startedMatch.getHomeTeam());
-        Assertions.assertEquals(guestTeam, startedMatch.getGuestTeam());
-        Assertions.assertEquals(0, startedMatch.getHomeScore());
-        Assertions.assertEquals(0, startedMatch.getGuestScore());
-        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding + 1, InMemoryDB.MATCHES.size());
+        assertEquals(homeTeam, startedMatch.getHomeTeam());
+        assertEquals(guestTeam, startedMatch.getGuestTeam());
+        assertEquals(0, startedMatch.getHomeScore());
+        assertEquals(0, startedMatch.getGuestScore());
+        assertEquals(numberOfMatchesInPlayBeforeAdding + 1, InMemoryDB.MATCHES.size());
     }
 
     @Test
@@ -50,8 +56,8 @@ class ScoreboardServiceTest {
         Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
 
         // then
-        Assertions.assertNull(startedMatch);
-        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertNull(startedMatch);
+        assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
     }
 
     @Test
@@ -66,8 +72,8 @@ class ScoreboardServiceTest {
         Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
 
         // then
-        Assertions.assertNull(startedMatch);
-        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertNull(startedMatch);
+        assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
     }
 
     @Test
@@ -82,8 +88,8 @@ class ScoreboardServiceTest {
         Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
 
         // then
-        Assertions.assertNull(startedMatch);
-        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertNull(startedMatch);
+        assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
     }
 
     @Test
@@ -98,8 +104,8 @@ class ScoreboardServiceTest {
         Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
 
         // then
-        Assertions.assertNull(startedMatch);
-        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertNull(startedMatch);
+        assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
     }
 
     @Test
@@ -114,8 +120,8 @@ class ScoreboardServiceTest {
         Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
 
         // then
-        Assertions.assertNull(startedMatch);
-        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertNull(startedMatch);
+        assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
     }
 
     @Test
@@ -130,12 +136,12 @@ class ScoreboardServiceTest {
         Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
 
         // then
-        Assertions.assertNull(startedMatch);
-        Assertions.assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertNull(startedMatch);
+        assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
     }
 
     @Test
-    void itShouldUpdateMatchWhenScoresAreCorrect() {
+    void itShouldUpdateMatchWhenScoresAreCorrect() throws ScoreFormatException {
 
         // given
         Integer index = 1;
@@ -146,8 +152,8 @@ class ScoreboardServiceTest {
         Match updatedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
 
         // then
-        Assertions.assertEquals(updatedMatch.getHomeScore(), InMemoryDB.MATCHES.get(0).getHomeScore());
-        Assertions.assertEquals(updatedMatch.getGuestScore(), InMemoryDB.MATCHES.get(0).getGuestScore());
+        assertEquals(updatedMatch.getHomeScore(), InMemoryDB.MATCHES.get(0).getHomeScore());
+        assertEquals(updatedMatch.getGuestScore(), InMemoryDB.MATCHES.get(0).getGuestScore());
     }
 
     @Test
@@ -159,12 +165,13 @@ class ScoreboardServiceTest {
         int guestScore = -2;
 
         // when
-        Match updatedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
+        ScoreFormatException thrown = assertThrows(ScoreFormatException.class, () -> scoreboardService.updateMatch(index, homeScore, guestScore));
 
         // then
-        Assertions.assertEquals(10, InMemoryDB.MATCHES.get(0).getHomeScore());
-        Assertions.assertEquals(2, InMemoryDB.MATCHES.get(0).getGuestScore());
-        Assertions.assertNull(updatedMatch);
+        assertEquals(10, InMemoryDB.MATCHES.get(0).getHomeScore());
+        assertEquals(2, InMemoryDB.MATCHES.get(0).getGuestScore());
+        assertEquals(GUEST_TEAM_SCORE_NOT_VALID.getMessage(), thrown.getMessage());
+
     }
 
     @Test
@@ -176,10 +183,12 @@ class ScoreboardServiceTest {
         int guestScore = 10;
 
         // when
-        Match updatedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
+        ScoreFormatException thrown = assertThrows(ScoreFormatException.class, () -> scoreboardService.updateMatch(index, homeScore, guestScore));
 
         // then
-        Assertions.assertNull(updatedMatch);
+        assertEquals(10, InMemoryDB.MATCHES.get(0).getHomeScore());
+        assertEquals(2, InMemoryDB.MATCHES.get(0).getGuestScore());
+        assertEquals(HOME_TEAM_SCORE_NOT_VALID.getMessage(), thrown.getMessage());
     }
 
     private void initInMemoryDb() {
