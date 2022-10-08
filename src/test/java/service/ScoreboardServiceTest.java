@@ -13,12 +13,12 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
 
 class ScoreboardServiceTest {
 

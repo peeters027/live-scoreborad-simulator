@@ -6,17 +6,19 @@ import org.junit.jupiter.api.Test;
 import pl.szmolke.database.InMemoryDB;
 import pl.szmolke.model.Match;
 import pl.szmolke.validator.ScoreboardValidator;
-import pl.szmolke.validator.ScoreboardValidator.ValidationResult;
+import pl.szmolke.validator.ValidationResult;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.SUCCESS;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.SUCCESS;
+
 
 public class ScoreboardValidatorTest {
 
@@ -208,7 +210,7 @@ public class ScoreboardValidatorTest {
     }
 
     private void initInMemoryDb() {
-        InMemoryDB.MATCHES.addAll(Arrays.asList(
+        InMemoryDB.MATCHES = new ArrayList<>(Arrays.asList(
                 Match.builder()
                         .homeTeam("Spain")
                         .guestTeam("Brazil")

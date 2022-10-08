@@ -4,11 +4,11 @@ import pl.szmolke.database.InMemoryDB;
 import pl.szmolke.exception.ScoreFormatException;
 import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.model.Match;
-import pl.szmolke.validator.ScoreboardValidator.ValidationResult;
+import pl.szmolke.validator.ValidationResult;
 
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.SUCCESS;
 import static pl.szmolke.validator.ScoreboardValidator.isMatchValid;
 import static pl.szmolke.validator.ScoreboardValidator.isScoreValid;
+import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
 public class ScoreboardService {
 

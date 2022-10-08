@@ -5,14 +5,14 @@ import pl.szmolke.model.Match;
 
 import java.util.function.Function;
 
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
-import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.SUCCESS;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.SUCCESS;
+
 
 public interface ScoreboardValidator extends Function<Match, ValidationResult> {
 
@@ -70,26 +70,5 @@ public interface ScoreboardValidator extends Function<Match, ValidationResult> {
             ValidationResult result = this.apply(match);
             return result.equals(SUCCESS) ? other.apply(match) : result;
         };
-    }
-
-    enum ValidationResult {
-        SUCCESS("Input is valid."),
-        HOME_TEAM_NAME_INVALID("Home team name is not valid."),
-        GUEST_TEAM_NAME_INVALID("Guest team name is not valid."),
-        HOME_TEAM_ALREADY_IN_PLAY("Home team is currently playing a match."),
-        GUEST_TEAM_ALREADY_IN_PLAY("Guest team is currently playing a match"),
-        HOME_TEAM_SCORE_NOT_VALID("Home score is not valid. Provided score should not be a negative number."),
-        GUEST_TEAM_SCORE_NOT_VALID("Guest score is not valid. Provided score should not be a negative number.");
-
-
-        private final String message;
-
-        ValidationResult(String msg) {
-            this.message = msg;
-        }
-
-        public String getMessage() {
-            return message;
-        }
     }
 }
