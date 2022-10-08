@@ -14,6 +14,7 @@ import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TE
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_NAME_INVALID;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.SUCCESS;
 
 public class ScoreboardValidatorTest {
@@ -121,6 +122,7 @@ public class ScoreboardValidatorTest {
 
     @Test
     void itShouldValidateHomeTeamWhenHomeTeamIsCurrentlyPlayingAnotherMatch() {
+
         // given
         String homeTeam = "Mexico";
         String guestTeam = "Poland";
@@ -135,6 +137,7 @@ public class ScoreboardValidatorTest {
 
     @Test
     void itShouldValidateGuestTeamWhenGuestTeamIsCurrentlyPlayingAnotherMatch() {
+
         // given
         String homeTeam = "Poland";
         String guestTeam = "Mexico";
@@ -145,6 +148,54 @@ public class ScoreboardValidatorTest {
 
         // then
         Assertions.assertEquals(GUEST_TEAM_ALREADY_IN_PLAY.getMessage(), result.getMessage());
+    }
+
+    @Test
+    void itShouldValidateHomeScoreWhenHomeScoreIsCorrect() {
+
+        // given
+        int homeScore = 2;
+        Match match = Match.builder().homeScore(homeScore).build();
+
+        // when
+        ValidationResult result = ScoreboardValidator.isHomeScoreValid().apply(match);
+
+        // then
+        Assertions.assertEquals(SUCCESS.getMessage(), result.getMessage());
+    }
+
+    @Test
+    void itShouldValidateHomeScoreWhenHomeScoreIsNotCorrect() {
+
+        // given
+        int homeScore = -2;
+        Match match = Match.builder().homeScore(homeScore).build();
+
+        // when
+        ValidationResult result = ScoreboardValidator.isHomeScoreValid().apply(match);
+
+        // then
+        Assertions.assertEquals(HOME_TEAM_SCORE_NOT_VALID.getMessage(), result.getMessage());
+    }
+
+    @Test
+    void itShouldValidateGuestScoreWhenGuestScoreIsCorrect() {
+
+        // given
+
+        // when
+
+        // then
+    }
+
+    @Test
+    void itShouldValidateGuestScoreWhenGuestScoreIsNotCorrect() {
+
+        // given
+
+        // when
+
+        // then
     }
 
     private void initInMemoryDb() {

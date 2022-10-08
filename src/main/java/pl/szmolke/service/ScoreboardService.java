@@ -27,8 +27,8 @@ public class ScoreboardService {
         return match;
     }
 
-    public Match updateMatch(Integer index, int homeScore, int guestScore) {
-        Match match = InMemoryDB.MATCHES.get(index - 1);
+    public Match updateMatch(Integer indexFromScoreboard, int homeScore, int guestScore) {
+        Match match = InMemoryDB.MATCHES.get(indexFromScoreboard - 1);
         match.setHomeScore(homeScore);
         match.setGuestScore(guestScore);
         return match;
