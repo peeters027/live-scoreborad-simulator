@@ -13,10 +13,10 @@ import java.util.Arrays;
 
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_INVALID;
 import static pl.szmolke.validator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.HOME_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_INVALID;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
 
@@ -178,7 +178,7 @@ public class ScoreboardValidatorTest {
         ValidationResult result = ScoreboardValidator.isHomeScoreValid(homeScore);
 
         // then
-        Assertions.assertEquals(HOME_TEAM_SCORE_NOT_VALID.getMessage(), result.getMessage());
+        Assertions.assertEquals(HOME_TEAM_SCORE_INVALID.getMessage(), result.getMessage());
     }
 
     @Test
@@ -206,7 +206,7 @@ public class ScoreboardValidatorTest {
         ValidationResult result = ScoreboardValidator.isGuestScoreValid(guestScore);
 
         // then
-        Assertions.assertEquals(GUEST_TEAM_SCORE_NOT_VALID.getMessage(), result.getMessage());
+        Assertions.assertEquals(GUEST_TEAM_SCORE_INVALID.getMessage(), result.getMessage());
     }
 
     private void initInMemoryDb() {

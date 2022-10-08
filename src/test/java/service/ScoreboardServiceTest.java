@@ -15,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_INVALID;
 import static pl.szmolke.validator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.HOME_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_INVALID;
 
 class ScoreboardServiceTest {
 
@@ -180,7 +180,7 @@ class ScoreboardServiceTest {
         // then
         assertEquals(10, InMemoryDB.MATCHES.get(0).getHomeScore());
         assertEquals(2, InMemoryDB.MATCHES.get(0).getGuestScore());
-        assertEquals(GUEST_TEAM_SCORE_NOT_VALID.getMessage(), thrown.getMessage());
+        assertEquals(GUEST_TEAM_SCORE_INVALID.getMessage(), thrown.getMessage());
 
     }
 
@@ -198,7 +198,7 @@ class ScoreboardServiceTest {
         // then
         assertEquals(10, InMemoryDB.MATCHES.get(0).getHomeScore());
         assertEquals(2, InMemoryDB.MATCHES.get(0).getGuestScore());
-        assertEquals(HOME_TEAM_SCORE_NOT_VALID.getMessage(), thrown.getMessage());
+        assertEquals(HOME_TEAM_SCORE_INVALID.getMessage(), thrown.getMessage());
     }
 
     private void initInMemoryDb() {

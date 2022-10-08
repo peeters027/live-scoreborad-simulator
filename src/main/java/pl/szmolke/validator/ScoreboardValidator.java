@@ -7,10 +7,10 @@ import java.util.function.Function;
 
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_INVALID;
 import static pl.szmolke.validator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.HOME_TEAM_NAME_INVALID;
-import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_INVALID;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
 
@@ -52,16 +52,16 @@ public interface ScoreboardValidator extends Function<Match, ValidationResult> {
 
     static ValidationResult isHomeScoreValid(int homeScore) {
         return homeScore >= 0 ?
-                SUCCESS : HOME_TEAM_SCORE_NOT_VALID;
+                SUCCESS : HOME_TEAM_SCORE_INVALID;
     }
 
     static ValidationResult isGuestScoreValid(int guestScore) {
         return guestScore >= 0 ?
-                SUCCESS : GUEST_TEAM_SCORE_NOT_VALID;
+                SUCCESS : GUEST_TEAM_SCORE_INVALID;
     }
 
     static ValidationResult isScoreValid(int homeScore, int guestScore) {
-        return isHomeScoreValid(homeScore) == SUCCESS ? isGuestScoreValid(guestScore) : HOME_TEAM_SCORE_NOT_VALID;
+        return isHomeScoreValid(homeScore) == SUCCESS ? isGuestScoreValid(guestScore) : HOME_TEAM_SCORE_INVALID;
 
     }
 

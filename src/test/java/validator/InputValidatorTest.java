@@ -11,6 +11,9 @@ import pl.szmolke.validator.ValidationResult;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static pl.szmolke.validator.ValidationResult.INDEX_FROM_SCOREBOARD_INVALID;
+import static pl.szmolke.validator.ValidationResult.SUCCESS;
+
 public class InputValidatorTest {
 
     @BeforeEach
@@ -19,7 +22,7 @@ public class InputValidatorTest {
     }
 
     @Test
-    void validateProvidedIndexFromScoreboard() {
+    void validateIndexFromScoreboardWhenIndexIsCorrect() {
 
         // given
         int index = 1;
@@ -28,7 +31,33 @@ public class InputValidatorTest {
         ValidationResult result = InputValidator.validateIndexFromScoreboard(index);
 
         // then
-        Assertions.assertEquals(ValidationResult.SUCCESS.getMessage(), result.getMessage());
+        Assertions.assertEquals(SUCCESS.getMessage(), result.getMessage());
+    }
+
+    @Test
+    void validateIndexFromScoreboardWhenIndexIsNegativeNumber() {
+
+        // given
+        int index = -1;
+
+        // when
+        ValidationResult result = InputValidator.validateIndexFromScoreboard(index);
+
+        // then
+        Assertions.assertEquals(INDEX_FROM_SCOREBOARD_INVALID.getMessage(), result.getMessage());
+    }
+
+    @Test
+    void validateIndexFromScoreboardWhenIndexIsBiggerThanMatchesSize() {
+
+        // given
+        int index = 100;
+
+        // when
+        ValidationResult result = InputValidator.validateIndexFromScoreboard(index);
+
+        // then
+        Assertions.assertEquals(INDEX_FROM_SCOREBOARD_INVALID.getMessage(), result.getMessage());
     }
 
     private void initInMemoryDb() {
