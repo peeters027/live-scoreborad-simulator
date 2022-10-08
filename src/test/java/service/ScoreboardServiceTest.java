@@ -4,15 +4,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.szmolke.database.InMemoryDB;
 import pl.szmolke.exception.ScoreFormatException;
+import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.model.Match;
 import pl.szmolke.service.ScoreboardService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_NAME_INVALID;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_NAME_INVALID;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
 
 class ScoreboardServiceTest {
@@ -26,7 +31,7 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    void itShouldStartMatchWithInitialScoreWhenTeamsAreNotCurrentlyPlaying() {
+    void itShouldStartMatchWithInitialScoreWhenTeamsAreNotCurrentlyPlaying() throws TeamNameFormatException {
 
         // given
         String homeTeam = "Poland";
@@ -45,7 +50,7 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    void itShouldNotStartMatchWhenAtHomeTeamIsCurrentlyPlaying() {
+    void itShouldNotStartMatchWhenHomeTeamIsCurrentlyPlaying() {
 
         // given
         String homeTeam = "Spain";
@@ -53,15 +58,16 @@ class ScoreboardServiceTest {
         int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
 
         // when
-        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+        TeamNameFormatException thrown = assertThrows(TeamNameFormatException.class, () -> scoreboardService.startMatch(homeTeam, guestTeam));
+
 
         // then
-        assertNull(startedMatch);
         assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertEquals(HOME_TEAM_ALREADY_IN_PLAY.getMessage(), thrown.getMessage());
     }
 
     @Test
-    void itShouldNotStartMatchWhenAtGuestTeamIsCurrentlyPlaying() {
+    void itShouldNotStartMatchWhenGuestTeamIsCurrentlyPlaying() {
 
         // given
         String homeTeam = "Portugal";
@@ -69,11 +75,12 @@ class ScoreboardServiceTest {
         int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
 
         // when
-        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+        TeamNameFormatException thrown = assertThrows(TeamNameFormatException.class, () -> scoreboardService.startMatch(homeTeam, guestTeam));
+
 
         // then
-        assertNull(startedMatch);
         assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertEquals(GUEST_TEAM_ALREADY_IN_PLAY.getMessage(), thrown.getMessage());
     }
 
     @Test
@@ -85,11 +92,12 @@ class ScoreboardServiceTest {
         int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
 
         // when
-        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+        TeamNameFormatException thrown = assertThrows(TeamNameFormatException.class, () -> scoreboardService.startMatch(homeTeam, guestTeam));
+
 
         // then
-        assertNull(startedMatch);
         assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertEquals(HOME_TEAM_ALREADY_IN_PLAY.getMessage(), thrown.getMessage());
     }
 
     @Test
@@ -101,31 +109,32 @@ class ScoreboardServiceTest {
         int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
 
         // when
-        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+        TeamNameFormatException thrown = assertThrows(TeamNameFormatException.class, () -> scoreboardService.startMatch(homeTeam, guestTeam));
+
 
         // then
-        assertNull(startedMatch);
         assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertEquals(HOME_TEAM_NAME_INVALID.getMessage(), thrown.getMessage());
     }
 
     @Test
     void itShouldNotStartMatchWhenHomeTeamNameIsNull() {
 
         // given
-        String homeTeam = null;
         String guestTeam = "Portugal";
         int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
 
         // when
-        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+        TeamNameFormatException thrown = assertThrows(TeamNameFormatException.class, () -> scoreboardService.startMatch(null, guestTeam));
+
 
         // then
-        assertNull(startedMatch);
         assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertEquals(HOME_TEAM_NAME_INVALID.getMessage(), thrown.getMessage());
     }
 
     @Test
-    void itShouldNotStartMatchWhenGuestTeamNameIsEmpty() {
+    void itShouldNotStartMatchWhenGuestTeamNameIsEmpty() throws TeamNameFormatException {
 
         // given
         String homeTeam = "Portugal";
@@ -133,11 +142,12 @@ class ScoreboardServiceTest {
         int numberOfMatchesInPlayBeforeAdding = InMemoryDB.MATCHES.size();
 
         // when
-        Match startedMatch = scoreboardService.startMatch(homeTeam, guestTeam);
+        TeamNameFormatException thrown = assertThrows(TeamNameFormatException.class, () -> scoreboardService.startMatch(homeTeam, guestTeam));
+
 
         // then
-        assertNull(startedMatch);
         assertEquals(numberOfMatchesInPlayBeforeAdding, InMemoryDB.MATCHES.size());
+        assertEquals(GUEST_TEAM_NAME_INVALID.getMessage(), thrown.getMessage());
     }
 
     @Test
@@ -192,7 +202,7 @@ class ScoreboardServiceTest {
     }
 
     private void initInMemoryDb() {
-        InMemoryDB.MATCHES.addAll(Arrays.asList(
+        InMemoryDB.MATCHES = new ArrayList<>(Arrays.asList(
                 Match.builder()
                         .homeTeam("Spain")
                         .guestTeam("Brazil")
@@ -207,5 +217,4 @@ class ScoreboardServiceTest {
                         .build()
         ));
     }
-
 }
