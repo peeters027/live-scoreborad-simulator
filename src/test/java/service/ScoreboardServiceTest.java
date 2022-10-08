@@ -155,13 +155,15 @@ class ScoreboardServiceTest {
 
         // given
         int index = 1;
-        int homeScore = 10;
+        int homeScore = 100;
         int guestScore = -2;
 
         // when
         Match updatedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
 
         // then
+        Assertions.assertEquals(10, InMemoryDB.MATCHES.get(0).getHomeScore());
+        Assertions.assertEquals(2, InMemoryDB.MATCHES.get(0).getGuestScore());
         Assertions.assertNull(updatedMatch);
     }
 

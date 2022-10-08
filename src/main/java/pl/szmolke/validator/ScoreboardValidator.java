@@ -60,6 +60,12 @@ public interface ScoreboardValidator extends Function<Match, ValidationResult> {
                 SUCCESS : GUEST_TEAM_SCORE_NOT_VALID;
     }
 
+    static ValidationResult isScoreInputValid(Match match) {
+        return isHomeScoreValid()
+                .and(isGuestScoreValid())
+                .apply(match);
+    }
+
     default ScoreboardValidator and(ScoreboardValidator other) {
         return match -> {
             ValidationResult result = this.apply(match);
