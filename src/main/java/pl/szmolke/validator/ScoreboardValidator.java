@@ -8,8 +8,10 @@ import java.util.function.Function;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.SUCCESS;
 
 public interface ScoreboardValidator extends Function<Match, ValidationResult> {
@@ -49,11 +51,13 @@ public interface ScoreboardValidator extends Function<Match, ValidationResult> {
     }
 
     static ScoreboardValidator isHomeScoreValid() {
-        return null;
+        return match -> match.getHomeScore() >= 0 ?
+                SUCCESS : HOME_TEAM_SCORE_NOT_VALID;
     }
 
     static ScoreboardValidator isGuestScoreValid() {
-        return null;
+        return match -> match.getGuestScore() >= 0 ?
+                SUCCESS : GUEST_TEAM_SCORE_NOT_VALID;
     }
 
     default ScoreboardValidator and(ScoreboardValidator other) {
