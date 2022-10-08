@@ -204,7 +204,7 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    void itShouldRemoveMatchWhenIndexIsCorrect() {
+    void itShouldRemoveMatchWhenIndexIsCorrect() throws IndexFormatException {
 
         // given
         int numberOfMatchesInPlayBeforeAdding = MATCHES.size();
@@ -224,14 +224,14 @@ class ScoreboardServiceTest {
 
         // given
         int numberOfMatchesInPlayBeforeAdding = MATCHES.size();
-        int indexFromScoreboard = 1;
+        int indexFromScoreboard = -1;
 
         // when
         IndexFormatException indexFormatException = assertThrows(IndexFormatException.class,
                 () -> scoreboardService.removeMatch(indexFromScoreboard));
 
         // then
-        assertEquals(numberOfMatchesInPlayBeforeAdding - 1, MATCHES.size());
+        assertEquals(numberOfMatchesInPlayBeforeAdding, MATCHES.size());
         assertEquals(ValidationResult.INDEX_FROM_SCOREBOARD_INVALID.getMessage(), indexFormatException.getMessage());
     }
 
