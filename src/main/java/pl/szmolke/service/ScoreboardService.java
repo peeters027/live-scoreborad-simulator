@@ -28,6 +28,9 @@ public class ScoreboardService {
     }
 
     public Match updateMatch(Integer index, int homeScore, int guestScore) {
-        return null;
+        Match match = InMemoryDB.MATCHES.get(index - 1);
+        match.setHomeScore(homeScore);
+        match.setGuestScore(guestScore);
+        return match;
     }
 }

@@ -146,8 +146,8 @@ class ScoreboardServiceTest {
         Match startedMatch = scoreboardService.updateMatch(index, homeScore, guestScore);
 
         // then
-        Assertions.assertEquals(homeScore, InMemoryDB.MATCHES.get(1).getHomeScore());
-        Assertions.assertEquals(guestScore, InMemoryDB.MATCHES.get(1).getGuestScore());
+        Assertions.assertEquals(homeScore, InMemoryDB.MATCHES.get(0).getHomeScore());
+        Assertions.assertEquals(guestScore, InMemoryDB.MATCHES.get(0).getGuestScore());
     }
 
     private void initInMemoryDb() {
