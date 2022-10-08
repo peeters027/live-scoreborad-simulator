@@ -55,7 +55,19 @@ public class ScoreboardService {
         if (indexFromScoreboardValidationResult != SUCCESS) {
             throw new IndexFormatException(indexFromScoreboardValidationResult.getMessage());
         }
-        
+
         return MATCHES.remove(indexFromScoreboard - 1);
+    }
+
+    public void getSummaryOfGames() {
+
+        MATCHES.forEach(match ->
+                System.out.printf("%d. %s %d - %s %d %n",
+                        MATCHES.indexOf(match),
+                        match.getHomeTeam(),
+                        match.getHomeScore(),
+                        match.getGuestTeam(),
+                        match.getGuestScore()
+                ));
     }
 }
