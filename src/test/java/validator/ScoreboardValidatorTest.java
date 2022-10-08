@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_NAME_INVALID;
+import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.GUEST_TEAM_SCORE_NOT_VALID;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_NAME_INVALID;
 import static pl.szmolke.validator.ScoreboardValidator.ValidationResult.HOME_TEAM_SCORE_NOT_VALID;
@@ -182,20 +183,28 @@ public class ScoreboardValidatorTest {
     void itShouldValidateGuestScoreWhenGuestScoreIsCorrect() {
 
         // given
+        int guestScore = 2;
+        Match match = Match.builder().guestScore(guestScore).build();
 
         // when
+        ValidationResult result = ScoreboardValidator.isGuestScoreValid().apply(match);
 
         // then
+        Assertions.assertEquals(SUCCESS.getMessage(), result.getMessage());
     }
 
     @Test
     void itShouldValidateGuestScoreWhenGuestScoreIsNotCorrect() {
 
         // given
+        int guestScore = -2;
+        Match match = Match.builder().guestScore(guestScore).build();
 
         // when
+        ValidationResult result = ScoreboardValidator.isGuestScoreValid().apply(match);
 
         // then
+        Assertions.assertEquals(GUEST_TEAM_SCORE_NOT_VALID.getMessage(), result.getMessage());
     }
 
     private void initInMemoryDb() {
