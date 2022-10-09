@@ -21,6 +21,6 @@ The application is tested through JUnit 5.
 
 ## Staring the application
 
-Ensure that maven is installed (to check that, open cmd and type 'mvn -version')
-Open Command Line and type 'mvn clean install'
+Ensure that maven is installed (to check that, open cmd and type 'mvn -version').
+Open Command Line and type 'mvn clean install'.
 To start the application use start.bat file.
