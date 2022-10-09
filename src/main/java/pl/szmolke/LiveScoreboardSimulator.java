@@ -1,11 +1,14 @@
 package pl.szmolke;
 
+import pl.szmolke.exception.IndexFormatException;
 import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.service.ScoreboardService;
-import pl.szmolke.validator.InputValidator;
 import pl.szmolke.validator.ValidationResult;
 
 import java.util.Scanner;
+
+import static pl.szmolke.validator.InputValidator.validateInputAsNumber;
+import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
 public class LiveScoreboardSimulator {
     public static void main(String[] args) {
@@ -22,10 +25,10 @@ public class LiveScoreboardSimulator {
             System.out.print("5.) Exit\n");
             System.out.print("\nEnter Your Menu Choice: ");
 
-            ValidationResult inputValidationResult = InputValidator.validateInputAsNumber().apply(input);
+            ValidationResult inputValidationResult = validateInputAsNumber().apply(input);
             int choice;
 
-            if (inputValidationResult != ValidationResult.SUCCESS) {
+            if (inputValidationResult != SUCCESS) {
                 System.out.println(inputValidationResult.getMessage());
                 choice = -1;
             } else {
@@ -47,6 +50,10 @@ public class LiveScoreboardSimulator {
                     break;
                 case 2:
                     System.out.println("\nFinishing a game...");
+                    System.out.println("Which match would you like to remove? ");
+                    System.out.println("Please provide the index of the match.");
+                    scoreboardService.getSummaryOfGames();
+                    removeMatch(scoreboardService, input);
                     break;
                 case 3:
                     System.out.println("\nUpdating a game...");
@@ -62,6 +69,19 @@ public class LiveScoreboardSimulator {
                 default:
                     System.out.println("This is not a valid menu option! Please select again.");
                     break;
+            }
+        }
+    }
+
+    private static void removeMatch(ScoreboardService scoreboardService, Scanner input) {
+        ValidationResult validationResult = validateInputAsNumber().apply(input);
+        if (validationResult != SUCCESS) {
+            System.out.println(validationResult.getMessage());
+        } else {
+            try {
+                scoreboardService.removeMatch(input.nextInt());
+            } catch (IndexFormatException e) {
+                System.out.println(e.getMessage());
             }
         }
     }

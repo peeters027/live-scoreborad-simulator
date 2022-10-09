@@ -55,7 +55,7 @@ public class ScoreboardService {
         if (indexFromScoreboardValidationResult != SUCCESS) {
             throw new IndexFormatException(indexFromScoreboardValidationResult.getMessage());
         }
-
+        System.out.println("Match has been removed.");
         return MATCHES.remove(indexFromScoreboard - 1);
     }
 
