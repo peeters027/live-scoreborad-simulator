@@ -1,9 +1,44 @@
 package pl.szmolke;
 
+import pl.szmolke.service.ScoreboardService;
+
+import java.util.Scanner;
+
 public class LiveScoreboardSimulator {
     public static void main(String[] args) {
 
-        System.out.println("Welcome to Live Scoreboard Simulator");
-        new java.util.Scanner(System.in).nextLine();
+        ScoreboardService scoreboardService = new ScoreboardService();
+
+        while (true) {
+            Scanner input = new Scanner(System.in);
+            System.out.println("\nSimulator Main Menu");
+            System.out.print("1.) Start a game \n");
+            System.out.print("2.) Finish a game.\n");
+            System.out.print("3.) Update score.\n");
+            System.out.print("4.) Get summary of games in total score.\n");
+            System.out.print("5.) Exit\n");
+            System.out.print("\nEnter Your Menu Choice: ");
+
+            int choice = input.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\nStarting a game... ");
+                    break;
+                case 2:
+                    System.out.println("\nFinishing a game...");
+                    break;
+                case 3:
+                    System.out.println("\nUpdating a game...");
+                    break;
+                case 4:
+                    System.out.println("\nSummary of games...");
+                    break;
+                case 5:
+                    System.out.println("\nExiting Program...");
+                    System.exit(0);
+                    break;
+            }
+        }
     }
 }

@@ -63,7 +63,7 @@ public class ScoreboardService {
 
         MATCHES.forEach(match ->
                 System.out.printf("%d. %s %d - %s %d %n",
-                        MATCHES.indexOf(match),
+                        MATCHES.indexOf(match) + 1,
                         match.getHomeTeam(),
                         match.getHomeScore(),
                         match.getGuestTeam(),
