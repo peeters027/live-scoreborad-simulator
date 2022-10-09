@@ -49,6 +49,11 @@ public class ScoreboardService {
     }
 
     public void getSummaryOfGames() {
+        
+        if (MATCHES.isEmpty()) {
+            System.out.println("Currently there's no matches.");
+            return;
+        }
 
         MATCHES.forEach(match ->
                 System.out.printf("%d. %s %d - %s %d %n",

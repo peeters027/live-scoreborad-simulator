@@ -2,19 +2,16 @@ package pl.szmolke;
 
 import pl.szmolke.exception.IndexFormatException;
 import pl.szmolke.exception.TeamNameFormatException;
+import pl.szmolke.service.InputService;
 import pl.szmolke.service.ScoreboardService;
-import pl.szmolke.validator.ValidationResult;
 
 import java.util.Scanner;
-
-import static pl.szmolke.validator.InputValidator.validateIndexFromScoreboard;
-import static pl.szmolke.validator.InputValidator.validateInputAsNumber;
-import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
 public class LiveScoreboardSimulator {
     public static void main(String[] args) {
 
         ScoreboardService scoreboardService = new ScoreboardService();
+        InputService inputService = new InputService();
 
         while (true) {
             Scanner input = new Scanner(System.in);
@@ -26,7 +23,7 @@ public class LiveScoreboardSimulator {
             System.out.print("5.) Exit\n");
             System.out.print("\nEnter Your Menu Choice: ");
 
-            int choice = getMenuOption(input);
+            int choice = inputService.getMenuOption(input);
 
             switch (choice) {
                 case 1:
@@ -48,7 +45,8 @@ public class LiveScoreboardSimulator {
                         System.out.println("Which match would you like to remove? ");
                         System.out.println("Please provide the index of the match.");
                         scoreboardService.getSummaryOfGames();
-                        scoreboardService.removeMatch(getMatchIndexFromInput(input));
+                        int index = inputService.getMatchIndexFromInput(input);
+                        scoreboardService.removeMatch(index);
                         System.out.println("Match has been removed.");
                     } catch (IndexFormatException e) {
                         System.out.println(e.getMessage());
@@ -60,11 +58,11 @@ public class LiveScoreboardSimulator {
                         System.out.println("Which match would you like to update? ");
                         System.out.println("Please provide the index of the match.");
                         scoreboardService.getSummaryOfGames();
-                        int index = getMatchIndexFromInput(input);
+                        int index = inputService.getMatchIndexFromInput(input);
                         System.out.println("Please provide the home team score.");
-                        Integer homeScore = getNumberFromInput(input);
+                        Integer homeScore = inputService.getNumberFromInput(input);
                         System.out.println("Please provide the guest team score.");
-                        Integer guestScore = getNumberFromInput(input);
+                        Integer guestScore = inputService.getNumberFromInput(input);
                         System.out.println("Please provide the guest team score.");
                         scoreboardService.updateMatch(index, homeScore, guestScore);
                     } catch (Exception e) {
@@ -85,32 +83,5 @@ public class LiveScoreboardSimulator {
                     break;
             }
         }
-    }
-
-    private static Integer getMenuOption(Scanner input) {
-        try {
-            return getNumberFromInput(input);
-        } catch (IndexFormatException e) {
-            System.out.println(e.getMessage());
-            return -1;
-        }
-    }
-
-    private static Integer getMatchIndexFromInput(Scanner input) throws IndexFormatException {
-        int index = getNumberFromInput(input);
-        ValidationResult isIndexInScoreboard = validateIndexFromScoreboard(index);
-        if (isIndexInScoreboard != SUCCESS) {
-            throw new IndexFormatException(isIndexInScoreboard.getMessage());
-        }
-        return index;
-    }
-
-    private static Integer getNumberFromInput(Scanner input) throws IndexFormatException {
-        ValidationResult isInputNumber = validateInputAsNumber().apply(input);
-        if (isInputNumber != SUCCESS) {
-            input.nextLine();
-            throw new IndexFormatException(isInputNumber.getMessage());
-        }
-        return input.nextInt();
     }
 }
