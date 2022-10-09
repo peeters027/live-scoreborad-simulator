@@ -38,33 +38,47 @@ public class LiveScoreboardSimulator {
 
             switch (choice) {
                 case 1:
-                    System.out.println("\nStarting a game... ");
-                    System.out.println("Provide a name of home team");
-                    String homeTeam = input.nextLine();
-                    System.out.println("Provide a name of guest team");
-                    String guestTeam = input.nextLine();
                     try {
+                        System.out.println("\nStarting a game... ");
+                        System.out.println("Provide a name of home team");
+                        String homeTeam = input.nextLine();
+                        System.out.println("Provide a name of guest team");
+                        String guestTeam = input.nextLine();
                         scoreboardService.startMatch(homeTeam, guestTeam);
                     } catch (TeamNameFormatException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
                 case 2:
-                    System.out.println("\nFinishing a game...");
-                    System.out.println("Which match would you like to remove? ");
-                    System.out.println("Please provide the index of the match.");
-                    scoreboardService.getSummaryOfGames();
                     try {
+                        System.out.println("\nFinishing a game...");
+                        System.out.println("Which match would you like to remove? ");
+                        System.out.println("Please provide the index of the match.");
+                        scoreboardService.getSummaryOfGames();
                         scoreboardService.removeMatch(getIndexFromInput(input));
                         System.out.println("Match has been removed.");
                     } catch (IndexFormatException e) {
                         System.out.println(e.getMessage());
-                        break;
                     }
                     break;
                 case 3:
-                    System.out.println("\nUpdating a game...");
+                    try {
+                        System.out.println("\nUpdating a game...");
+                        System.out.println("Which match would you like to update? ");
+                        System.out.println("Please provide the index of the match.");
+                        scoreboardService.getSummaryOfGames();
+                        int index = getIndexFromInput(input);
+                        System.out.println("Please provide the home team score.");
+                        Integer homeScore = getNumberFromInput(input);
+                        System.out.println("Please provide the guest team score.");
+                        Integer guestScore = getNumberFromInput(input);
+                        System.out.println("Please provide the guest team score.");
+                        scoreboardService.updateMatch(index, homeScore, guestScore);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
+
                 case 4:
                     System.out.println("\nSummary of games...");
                     scoreboardService.getSummaryOfGames();
@@ -81,16 +95,21 @@ public class LiveScoreboardSimulator {
     }
 
     private static Integer getIndexFromInput(Scanner input) throws IndexFormatException {
-        ValidationResult isInputNumber = validateInputAsNumber().apply(input);
-        if (isInputNumber != SUCCESS) {
-            input.nextLine();
-            throw new IndexFormatException(isInputNumber.getMessage());
-        }
-        int index = input.nextInt();
+        int index = getNumberFromInput(input);
         ValidationResult isIndexInScoreboard = validateIndexFromScoreboard(index);
         if (isIndexInScoreboard != SUCCESS) {
             throw new IndexFormatException(isIndexInScoreboard.getMessage());
         }
         return index;
+    }
+
+
+    private static Integer getNumberFromInput(Scanner input) throws IndexFormatException {
+        ValidationResult isInputNumber = validateInputAsNumber().apply(input);
+        if (isInputNumber != SUCCESS) {
+            input.nextLine();
+            throw new IndexFormatException(isInputNumber.getMessage());
+        }
+        return input.nextInt();
     }
 }
