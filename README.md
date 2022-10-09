@@ -1,10 +1,13 @@
 # Project
+
 Welcome to the Live Scoreboard Simulator.
 
 ## Description
+
 The application imitates scoreboard with the results of matches that are held live.
 
 In the application user has the following options:
+
 1. Start match (home team name and guest team name have to be provided)
 2. Finish match (removes the match from scoreboard, index of the match has to be provided)
 3. Match update (updates the match, index of the match has to be provided)
@@ -12,8 +15,12 @@ In the application user has the following options:
 5. End of the program
 
 ## Technical documentation
+
 The application was developed using Java and the entire simulation is displayed in Command Prompt.
 The application is tested through JUnit 5.
 
 ## Staring the application
+
+Ensure that maven is installed (to check that, open cmd and type 'mvn -version')
+Open Command Line and type 'mvn clean install'
 To start the application use start.bat file.
