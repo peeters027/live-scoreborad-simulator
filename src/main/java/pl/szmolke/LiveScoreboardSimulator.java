@@ -2,6 +2,8 @@ package pl.szmolke;
 
 import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.service.ScoreboardService;
+import pl.szmolke.validator.InputValidator;
+import pl.szmolke.validator.ValidationResult;
 
 import java.util.Scanner;
 
@@ -20,7 +22,15 @@ public class LiveScoreboardSimulator {
             System.out.print("5.) Exit\n");
             System.out.print("\nEnter Your Menu Choice: ");
 
-            int choice = Integer.parseInt(input.nextLine());
+            ValidationResult inputValidationResult = InputValidator.validateInputAsNumber().apply(input);
+            int choice;
+
+            if (inputValidationResult != ValidationResult.SUCCESS) {
+                System.out.println(inputValidationResult.getMessage());
+                choice = -1;
+            } else {
+                choice = Integer.parseInt(input.nextLine());
+            }
 
             switch (choice) {
                 case 1:

@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import static pl.szmolke.database.InMemoryDB.MATCHES;
 import static pl.szmolke.validator.ValidationResult.INDEX_FROM_SCOREBOARD_INVALID;
+import static pl.szmolke.validator.ValidationResult.INPUT_IS_NOT_NUMBER;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
 public class InputValidatorTest {
@@ -68,7 +69,7 @@ public class InputValidatorTest {
         ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
         Scanner input = new Scanner(in);
         // when
-        ValidationResult result = InputValidator.validateIndexFromScoreboard().apply(input);
+        ValidationResult result = InputValidator.validateInputAsNumber().apply(input);
 
         // then
         Assertions.assertEquals(SUCCESS.getMessage(), result.getMessage());
@@ -80,10 +81,10 @@ public class InputValidatorTest {
         ByteArrayInputStream in = new ByteArrayInputStream("text".getBytes());
         Scanner input = new Scanner(in);
         // when
-        ValidationResult result = InputValidator.validateIndexFromScoreboard().apply(input);
+        ValidationResult result = InputValidator.validateInputAsNumber().apply(input);
 
         // then
-        Assertions.assertEquals(INDEX_FROM_SCOREBOARD_INVALID.getMessage(), result.getMessage());
+        Assertions.assertEquals(INPUT_IS_NOT_NUMBER.getMessage(), result.getMessage());
     }
 
     private void initInMemoryDb() {
