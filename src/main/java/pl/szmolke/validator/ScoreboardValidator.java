@@ -67,7 +67,6 @@ public interface ScoreboardValidator extends Function<Match, ValidationResult> {
 
     static ValidationResult isScoreValid(int homeScore, int guestScore) {
         return isHomeScoreValid(homeScore) == SUCCESS ? isGuestScoreValid(guestScore) : HOME_TEAM_SCORE_INVALID;
-
     }
 
     default ScoreboardValidator and(ScoreboardValidator other) {

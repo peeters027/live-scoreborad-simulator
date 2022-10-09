@@ -2,6 +2,7 @@ package pl.szmolke.service;
 
 import pl.szmolke.exception.IndexFormatException;
 import pl.szmolke.exception.ScoreFormatException;
+import pl.szmolke.exception.ScoreboadEmptyException;
 import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.model.Match;
 import pl.szmolke.validator.ValidationResult;
@@ -56,11 +57,10 @@ public class ScoreboardService {
         return MATCHES.remove(indexFromScoreboard - 1);
     }
 
-    public void getSummaryOfGames() {
+    public void getSummaryOfGames() throws ScoreboadEmptyException {
 
         if (MATCHES.isEmpty()) {
-            System.out.println("Currently there's no matches.");
-            return;
+            throw new ScoreboadEmptyException();
         }
 
         System.out.println("\nSummary of games...");

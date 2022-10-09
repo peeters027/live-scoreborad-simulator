@@ -1,6 +1,6 @@
 package pl.szmolke;
 
-import pl.szmolke.exception.IndexFormatException;
+import pl.szmolke.exception.ScoreboadEmptyException;
 import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.service.InputService;
 import pl.szmolke.service.ScoreboardService;
@@ -48,7 +48,7 @@ public class LiveScoreboardSimulator {
                         int index = inputService.getMatchIndexFromInput(input);
                         scoreboardService.removeMatch(index);
                         System.out.println("Match has been removed.");
-                    } catch (IndexFormatException e) {
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -71,7 +71,11 @@ public class LiveScoreboardSimulator {
                     break;
 
                 case 4:
-                    scoreboardService.getSummaryOfGames();
+                    try {
+                        scoreboardService.getSummaryOfGames();
+                    } catch (ScoreboadEmptyException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 5:
                     System.out.println("\nExiting Program...");
