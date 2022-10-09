@@ -26,21 +26,14 @@ public class LiveScoreboardSimulator {
             System.out.print("5.) Exit\n");
             System.out.print("\nEnter Your Menu Choice: ");
 
-            ValidationResult inputValidationResult = validateInputAsNumber().apply(input);
-            int choice;
-
-            if (inputValidationResult != SUCCESS) {
-                System.out.println(inputValidationResult.getMessage());
-                choice = -1;
-            } else {
-                choice = Integer.parseInt(input.nextLine());
-            }
+            int choice = getMenuOption(input);
 
             switch (choice) {
                 case 1:
                     try {
                         System.out.println("\nStarting a game... ");
                         System.out.println("Provide a name of home team");
+                        input.nextLine();
                         String homeTeam = input.nextLine();
                         System.out.println("Provide a name of guest team");
                         String guestTeam = input.nextLine();
@@ -55,7 +48,7 @@ public class LiveScoreboardSimulator {
                         System.out.println("Which match would you like to remove? ");
                         System.out.println("Please provide the index of the match.");
                         scoreboardService.getSummaryOfGames();
-                        scoreboardService.removeMatch(getIndexFromInput(input));
+                        scoreboardService.removeMatch(getMatchIndexFromInput(input));
                         System.out.println("Match has been removed.");
                     } catch (IndexFormatException e) {
                         System.out.println(e.getMessage());
@@ -67,7 +60,7 @@ public class LiveScoreboardSimulator {
                         System.out.println("Which match would you like to update? ");
                         System.out.println("Please provide the index of the match.");
                         scoreboardService.getSummaryOfGames();
-                        int index = getIndexFromInput(input);
+                        int index = getMatchIndexFromInput(input);
                         System.out.println("Please provide the home team score.");
                         Integer homeScore = getNumberFromInput(input);
                         System.out.println("Please provide the guest team score.");
@@ -94,7 +87,16 @@ public class LiveScoreboardSimulator {
         }
     }
 
-    private static Integer getIndexFromInput(Scanner input) throws IndexFormatException {
+    private static Integer getMenuOption(Scanner input) {
+        try {
+            return getNumberFromInput(input);
+        } catch (IndexFormatException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+    }
+
+    private static Integer getMatchIndexFromInput(Scanner input) throws IndexFormatException {
         int index = getNumberFromInput(input);
         ValidationResult isIndexInScoreboard = validateIndexFromScoreboard(index);
         if (isIndexInScoreboard != SUCCESS) {
@@ -102,7 +104,6 @@ public class LiveScoreboardSimulator {
         }
         return index;
     }
-
 
     private static Integer getNumberFromInput(Scanner input) throws IndexFormatException {
         ValidationResult isInputNumber = validateInputAsNumber().apply(input);

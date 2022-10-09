@@ -9,9 +9,7 @@ public enum ValidationResult {
     HOME_TEAM_SCORE_INVALID("Home score is not valid. Provided score should not be a negative number."),
     GUEST_TEAM_SCORE_INVALID("Guest score is not valid. Provided score should not be a negative number."),
     INDEX_FROM_SCOREBOARD_INVALID("Provided index is not valid."),
-    INPUT_IS_NOT_NUMBER("Provided input should be a number."),
-    SCORE_INPUT_INVALID("Provided score is not valid.");
-
+    INPUT_IS_NOT_NUMBER("Provided input should be a number.");
 
     private final String message;
 
