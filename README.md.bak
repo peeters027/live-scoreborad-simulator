@@ -15,5 +15,5 @@ In the application user has the following options:
 The application was developed using Java and the entire simulation is displayed in Command Prompt.
 The application is tested through JUnit 5.
 
-## Staring the application
+##Staring the application
 To start the application use start.bat file.
