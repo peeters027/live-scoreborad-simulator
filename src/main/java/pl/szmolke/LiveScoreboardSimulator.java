@@ -7,6 +7,7 @@ import pl.szmolke.validator.ValidationResult;
 
 import java.util.Scanner;
 
+import static pl.szmolke.validator.InputValidator.validateIndexFromScoreboard;
 import static pl.szmolke.validator.InputValidator.validateInputAsNumber;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
@@ -53,7 +54,13 @@ public class LiveScoreboardSimulator {
                     System.out.println("Which match would you like to remove? ");
                     System.out.println("Please provide the index of the match.");
                     scoreboardService.getSummaryOfGames();
-                    removeMatch(scoreboardService, input);
+                    try {
+                        scoreboardService.removeMatch(getIndexFromInput(input));
+                        System.out.println("Match has been removed.");
+                    } catch (IndexFormatException e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
                     break;
                 case 3:
                     System.out.println("\nUpdating a game...");
@@ -73,16 +80,17 @@ public class LiveScoreboardSimulator {
         }
     }
 
-    private static void removeMatch(ScoreboardService scoreboardService, Scanner input) {
-        ValidationResult validationResult = validateInputAsNumber().apply(input);
-        if (validationResult != SUCCESS) {
-            System.out.println(validationResult.getMessage());
-        } else {
-            try {
-                scoreboardService.removeMatch(input.nextInt());
-            } catch (IndexFormatException e) {
-                System.out.println(e.getMessage());
-            }
+    private static Integer getIndexFromInput(Scanner input) throws IndexFormatException {
+        ValidationResult isInputNumber = validateInputAsNumber().apply(input);
+        if (isInputNumber != SUCCESS) {
+            input.nextLine();
+            throw new IndexFormatException(isInputNumber.getMessage());
         }
+        int index = input.nextInt();
+        ValidationResult isIndexInScoreboard = validateIndexFromScoreboard(index);
+        if (isIndexInScoreboard != SUCCESS) {
+            throw new IndexFormatException(isIndexInScoreboard.getMessage());
+        }
+        return index;
     }
 }

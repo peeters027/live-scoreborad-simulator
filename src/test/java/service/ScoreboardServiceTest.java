@@ -7,7 +7,6 @@ import pl.szmolke.exception.ScoreFormatException;
 import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.model.Match;
 import pl.szmolke.service.ScoreboardService;
-import pl.szmolke.validator.ValidationResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,22 +219,6 @@ class ScoreboardServiceTest {
         // then
         assertEquals(numberOfMatchesInPlayBeforeAdding - 1, MATCHES.size());
         assertEquals(matchExpectedToBeRemoved, removedMatch);
-    }
-
-    @Test
-    void itShouldNotRemoveMatchWhenIndexIsNotCorrect() {
-
-        // given
-        int numberOfMatchesInPlayBeforeAdding = MATCHES.size();
-        int indexFromScoreboard = -1;
-
-        // when
-        IndexFormatException indexFormatException = assertThrows(IndexFormatException.class,
-                () -> scoreboardService.removeMatch(indexFromScoreboard));
-
-        // then
-        assertEquals(numberOfMatchesInPlayBeforeAdding, MATCHES.size());
-        assertEquals(ValidationResult.INDEX_FROM_SCOREBOARD_INVALID.getMessage(), indexFormatException.getMessage());
     }
 
     private void initInMemoryDb() {
