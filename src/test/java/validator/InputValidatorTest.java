@@ -68,6 +68,7 @@ public class InputValidatorTest {
         // given
         ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
         Scanner input = new Scanner(in);
+        
         // when
         ValidationResult result = InputValidator.validateInputAsNumber().apply(input);
 
@@ -80,6 +81,7 @@ public class InputValidatorTest {
         // given
         ByteArrayInputStream in = new ByteArrayInputStream("text".getBytes());
         Scanner input = new Scanner(in);
+
         // when
         ValidationResult result = InputValidator.validateInputAsNumber().apply(input);
 
