@@ -3,19 +3,16 @@ package service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.szmolke.exception.IndexFormatException;
-import pl.szmolke.model.Match;
 import pl.szmolke.service.InputService;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static pl.szmolke.database.InMemoryDB.MATCHES;
 import static pl.szmolke.validator.ValidationResult.INDEX_FROM_SCOREBOARD_INVALID;
 import static pl.szmolke.validator.ValidationResult.INPUT_IS_NOT_NUMBER;
+import static utils.TestHelper.initInMemoryDb;
 
 public class InputServiceTest {
 
@@ -123,22 +120,5 @@ public class InputServiceTest {
 
         // then
         assertEquals(-1, menuOption);
-    }
-
-    private void initInMemoryDb() {
-        MATCHES = new ArrayList<>(Arrays.asList(
-                Match.builder()
-                        .homeTeam("Spain")
-                        .guestTeam("Brazil")
-                        .homeScore(10)
-                        .guestScore(2)
-                        .build(),
-                Match.builder()
-                        .homeTeam("Mexico")
-                        .guestTeam("Canada")
-                        .homeScore(0)
-                        .guestScore(5)
-                        .build()
-        ));
     }
 }

@@ -3,24 +3,22 @@ package validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.szmolke.model.Match;
 import pl.szmolke.validator.InputValidator;
 import pl.szmolke.validator.ValidationResult;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
-import static pl.szmolke.database.InMemoryDB.MATCHES;
 import static pl.szmolke.validator.ValidationResult.INDEX_FROM_SCOREBOARD_INVALID;
 import static pl.szmolke.validator.ValidationResult.INPUT_IS_NOT_NUMBER;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
+import static utils.TestHelper.initInMemoryDb;
 
 public class InputValidatorTest {
 
     @BeforeEach
     void setUp() {
+
         initInMemoryDb();
     }
 
@@ -68,7 +66,7 @@ public class InputValidatorTest {
         // given
         ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
         Scanner input = new Scanner(in);
-        
+
         // when
         ValidationResult result = InputValidator.validateInputAsNumber().apply(input);
 
@@ -87,22 +85,5 @@ public class InputValidatorTest {
 
         // then
         Assertions.assertEquals(INPUT_IS_NOT_NUMBER.getMessage(), result.getMessage());
-    }
-
-    private void initInMemoryDb() {
-        MATCHES = new ArrayList<>(Arrays.asList(
-                Match.builder()
-                        .homeTeam("Spain")
-                        .guestTeam("Brazil")
-                        .homeScore(10)
-                        .guestScore(2)
-                        .build(),
-                Match.builder()
-                        .homeTeam("Mexico")
-                        .guestTeam("Canada")
-                        .homeScore(0)
-                        .guestScore(5)
-                        .build()
-        ));
     }
 }

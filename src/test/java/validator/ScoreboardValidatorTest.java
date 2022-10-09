@@ -7,10 +7,6 @@ import pl.szmolke.model.Match;
 import pl.szmolke.validator.ScoreboardValidator;
 import pl.szmolke.validator.ValidationResult;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static pl.szmolke.database.InMemoryDB.MATCHES;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_SCORE_INVALID;
@@ -18,12 +14,14 @@ import static pl.szmolke.validator.ValidationResult.HOME_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.HOME_TEAM_NAME_INVALID;
 import static pl.szmolke.validator.ValidationResult.HOME_TEAM_SCORE_INVALID;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
+import static utils.TestHelper.initInMemoryDb;
 
 
 public class ScoreboardValidatorTest {
 
     @BeforeEach
     void setUp() {
+        
         initInMemoryDb();
     }
 
@@ -203,22 +201,5 @@ public class ScoreboardValidatorTest {
 
         // then
         Assertions.assertEquals(GUEST_TEAM_SCORE_INVALID.getMessage(), result.getMessage());
-    }
-
-    private void initInMemoryDb() {
-        MATCHES = new ArrayList<>(Arrays.asList(
-                Match.builder()
-                        .homeTeam("Spain")
-                        .guestTeam("Brazil")
-                        .homeScore(10)
-                        .guestScore(2)
-                        .build(),
-                Match.builder()
-                        .homeTeam("Mexico")
-                        .guestTeam("Canada")
-                        .homeScore(0)
-                        .guestScore(5)
-                        .build()
-        ));
     }
 }
