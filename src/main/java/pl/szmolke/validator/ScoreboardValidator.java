@@ -4,6 +4,7 @@ import pl.szmolke.database.InMemoryDB;
 import pl.szmolke.model.Match;
 
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_ALREADY_IN_PLAY;
 import static pl.szmolke.validator.ValidationResult.GUEST_TEAM_NAME_INVALID;
@@ -16,15 +17,19 @@ import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
 public interface ScoreboardValidator extends Function<Match, ValidationResult> {
 
+    Pattern pattern = Pattern.compile("\\d");
+
     static ScoreboardValidator isHomeTeamNameValid() {
         return match -> !(match.getHomeTeam() == null
-                || match.getHomeTeam().isEmpty()) ?
+                || match.getHomeTeam().isEmpty()
+                || pattern.matcher(match.getHomeTeam()).find()) ?
                 SUCCESS : HOME_TEAM_NAME_INVALID;
     }
 
     static ScoreboardValidator isGuestTeamNameValid() {
         return match -> !(match.getGuestTeam() == null
-                || match.getGuestTeam().isEmpty()) ?
+                || match.getGuestTeam().isEmpty()
+                || pattern.matcher(match.getGuestTeam()).find()) ?
                 SUCCESS : GUEST_TEAM_NAME_INVALID;
     }
 

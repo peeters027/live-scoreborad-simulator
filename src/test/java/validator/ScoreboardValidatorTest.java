@@ -21,7 +21,7 @@ public class ScoreboardValidatorTest {
 
     @BeforeEach
     void setUp() {
-        
+
         initInMemoryDb();
     }
 
@@ -67,6 +67,20 @@ public class ScoreboardValidatorTest {
     }
 
     @Test
+    void itShouldValidateHomeTeamNameInputWhenHomeTeamNameContainsNumber() {
+
+        // given
+        Match match = Match.builder().homeTeam("Po1and").build();
+
+        // when
+        ValidationResult result = ScoreboardValidator.isHomeTeamNameValid().apply(match);
+
+        // then
+        Assertions.assertEquals(HOME_TEAM_NAME_INVALID.getMessage(), result.getMessage());
+    }
+
+
+    @Test
     void itShouldValidateGuestTeamNameInputWhenGuestTeamNameIsCorrect() {
 
         // given
@@ -99,6 +113,19 @@ public class ScoreboardValidatorTest {
 
         // given
         Match match = Match.builder().guestTeam(null).build();
+
+        // when
+        ValidationResult result = ScoreboardValidator.isGuestTeamNameValid().apply(match);
+
+        // then
+        Assertions.assertEquals(GUEST_TEAM_NAME_INVALID.getMessage(), result.getMessage());
+    }
+
+    @Test
+    void itShouldValidateGuestTeamNameInputWhenGuestTeamNameContainsNumber() {
+
+        // given
+        Match match = Match.builder().guestTeam("Chi1e").build();
 
         // when
         ValidationResult result = ScoreboardValidator.isGuestTeamNameValid().apply(match);

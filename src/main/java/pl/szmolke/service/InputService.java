@@ -10,6 +10,7 @@ import static pl.szmolke.validator.InputValidator.validateInputAsNumber;
 import static pl.szmolke.validator.ValidationResult.SUCCESS;
 
 public class InputService {
+    
     public Integer getMenuOption(Scanner input) {
         try {
             return getNumberFromInput(input);
