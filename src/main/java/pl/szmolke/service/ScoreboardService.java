@@ -84,6 +84,9 @@ public class ScoreboardService {
     }
 
     public static String formatTeamName(String teamName) {
+        if (teamName == null || teamName.isEmpty()) {
+            return "";
+        }
         return Arrays.stream(teamName.trim().split("\\s+"))
                 .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
                 .collect(Collectors.joining(" "));
