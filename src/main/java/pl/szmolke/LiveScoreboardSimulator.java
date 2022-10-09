@@ -71,7 +71,6 @@ public class LiveScoreboardSimulator {
                     break;
 
                 case 4:
-                    System.out.println("\nSummary of games...");
                     scoreboardService.getSummaryOfGames();
                     break;
                 case 5:

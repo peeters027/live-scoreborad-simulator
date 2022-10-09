@@ -6,6 +6,12 @@ import pl.szmolke.exception.TeamNameFormatException;
 import pl.szmolke.model.Match;
 import pl.szmolke.validator.ValidationResult;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
+
 import static pl.szmolke.database.InMemoryDB.MATCHES;
 import static pl.szmolke.validator.ScoreboardValidator.isMatchValid;
 import static pl.szmolke.validator.ScoreboardValidator.isScoreValid;
@@ -18,6 +24,7 @@ public class ScoreboardService {
         Match match = Match.builder()
                 .homeTeam(homeTeam)
                 .guestTeam(guestTeam)
+                .createDate(LocalDateTime.now())
                 .build();
 
         ValidationResult result = isMatchValid(match);
@@ -49,12 +56,14 @@ public class ScoreboardService {
     }
 
     public void getSummaryOfGames() {
-        
+
         if (MATCHES.isEmpty()) {
             System.out.println("Currently there's no matches.");
             return;
         }
 
+        System.out.println("\nSummary of games...");
+        MATCHES = getMatchesSortedByTotalScoreAndCreateDate();
         MATCHES.forEach(match ->
                 System.out.printf("%d. %s %d - %s %d %n",
                         MATCHES.indexOf(match) + 1,
@@ -63,5 +72,13 @@ public class ScoreboardService {
                         match.getGuestTeam(),
                         match.getGuestScore()
                 ));
+    }
+
+    private static List<Match> getMatchesSortedByTotalScoreAndCreateDate() {
+        return MATCHES
+                .stream()
+                .sorted(Comparator.comparingInt((ToIntFunction<Match>) m -> m.getHomeScore() + m.getGuestScore())
+                        .thenComparing(Match::getCreateDate).reversed())
+                .collect(Collectors.toList());
     }
 }
