@@ -7,6 +7,7 @@ import pl.szmolke.model.Match;
 import pl.szmolke.validator.ValidationResult;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.ToIntFunction;
@@ -22,8 +23,8 @@ public class ScoreboardService {
     public Match startMatch(String homeTeam, String guestTeam) throws TeamNameFormatException {
 
         Match match = Match.builder()
-                .homeTeam(homeTeam)
-                .guestTeam(guestTeam)
+                .homeTeam(formatTeamName(homeTeam))
+                .guestTeam(formatTeamName(guestTeam))
                 .createDate(LocalDateTime.now())
                 .build();
 
@@ -80,5 +81,11 @@ public class ScoreboardService {
                 .sorted(Comparator.comparingInt((ToIntFunction<Match>) m -> m.getHomeScore() + m.getGuestScore())
                         .thenComparing(Match::getCreateDate).reversed())
                 .collect(Collectors.toList());
+    }
+
+    public static String formatTeamName(String teamName) {
+        return Arrays.stream(teamName.trim().split(" "))
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
     }
 }

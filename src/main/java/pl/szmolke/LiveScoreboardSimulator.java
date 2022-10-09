@@ -15,7 +15,7 @@ public class LiveScoreboardSimulator {
 
         while (true) {
             Scanner input = new Scanner(System.in);
-            System.out.println("\nSimulator Main Menu");
+            System.out.println("\nLive Football Scoreboard Menu");
             System.out.print("1.) Start a game \n");
             System.out.print("2.) Finish a game.\n");
             System.out.print("3.) Update score.\n");
